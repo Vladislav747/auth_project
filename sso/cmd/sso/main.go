@@ -1,18 +1,20 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"log/slog"
+	"os"
 	"sso/internal/config"
 	"sso/internal/lib/logger/handlers/slogpretty"
 	"strconv"
+
+	"sso/internal/app"
 )
 
 const (
 	envLocal = "local"
-	envDev = "dev"
-	envProd = "prod"
+	envDev   = "dev"
+	envProd  = "prod"
 )
 
 func main() {
@@ -22,7 +24,7 @@ func main() {
 
 	log := setupLogger(cfg)
 
-	log.Info("starting app", 
+	log.Info("starting app",
 		slog.String("env", cfg.Env),
 		slog.String("port", strconv.Itoa(cfg.GRPC.Port)),
 	)
@@ -33,15 +35,18 @@ func main() {
 
 	log.Warn("warn message")
 
-	//TODO: инициализировать логгер
+	application := app.New(log, cfg.GRPC.Port, cfg.StoragePath, cfg.GRPC.TokenTTL)
+
+	application.GRPCSrv.Run()
 
 	//TODO: инициализировать приложение
+
+	//TODO: Запустить gRPC сервер приложения
 }
 
-func setupLogger(cfg *config.Config)*slog.Logger {
+func setupLogger(cfg *config.Config) *slog.Logger {
 	var log *slog.Logger
 
- 
 	switch cfg.Env {
 	case envLocal:
 		log = setupPrettySlog()
