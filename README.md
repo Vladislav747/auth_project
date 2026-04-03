@@ -6,3 +6,7 @@ protoc -I proto proto/sso/sso.proto --go_out=./gen/go --go_opt=paths=source_rela
 ```bash
 go run cmd/sso/main.go --config config/local.yaml
 ```
+
+```bash
+go run ./cmd/migrator --storage-path=./storage/sso.db --migrations-path=./migrations
+```
