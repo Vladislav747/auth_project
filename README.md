@@ -4,6 +4,7 @@ protoc -I proto proto/sso/sso.proto --go_out=./gen/go --go_opt=paths=source_rela
 
 запуск проекта через
 ```bash
+cd sso
 go run cmd/sso/main.go --config config/local.yaml
 ```
 

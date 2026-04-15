@@ -49,12 +49,13 @@ func (s *serverAPI) Login(ctx context.Context, req *ssov1.LoginRequest) (*ssov1.
 		return nil, err
 	}
 
-	if _, err := s.auth.Login(ctx, req.GetEmail(), req.GetPassword(), req.GetAppId()); err != nil {
+	token, err := s.auth.Login(ctx, req.GetEmail(), req.GetPassword(), req.GetAppId())
+	if err != nil {
 		return nil, status.Error(codes.Internal, "internal error")
 	}
 
 	return &ssov1.LoginResponse{
-		Token: req.GetEmail(),
+		Token: token,
 	}, nil
 }
 
