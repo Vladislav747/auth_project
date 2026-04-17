@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"sso/internal/domain/models"
-	"sso/internal/lib/jwt"
-	"sso/internal/lib/logger/sl"
+	"sso/internal/pkg/jwt"
+	"sso/internal/pkg/logger/sl"
 	"sso/internal/storage"
 
 	"golang.org/x/crypto/bcrypt"

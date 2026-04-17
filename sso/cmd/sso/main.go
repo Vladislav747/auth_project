@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"os"
 	"sso/internal/config"
-	"sso/internal/lib/logger/handlers/slogpretty"
+	"sso/internal/pkg/logger/handlers/slogpretty"
 	"strconv"
 
 	"os/signal"

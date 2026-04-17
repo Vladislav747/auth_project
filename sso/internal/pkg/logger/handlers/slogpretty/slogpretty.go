@@ -22,7 +22,7 @@ type PrettyHandler struct {
 	// Handler оставлен для совместимости с базовым интерфейсом slog.Handler.
 	slog.Handler
 	// l печатает уже подготовленную "красивую" строку лога.
-	l     *stdLog.Logger
+	l *stdLog.Logger
 	// attrs содержит дополнительные атрибуты из WithAttrs().
 	attrs []slog.Attr
 }
