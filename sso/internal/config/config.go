@@ -27,21 +27,7 @@ func MustLoad() *Config {
 		panic("config path is empty")
 	}
 
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		panic("config file does not exist")
-	}
-
-	var cfg Config
-
-	if err := cleanenv.ReadConfig(path, &cfg); err != nil {
-		panic("failed to read config: " + err.Error())
-	}
-
-	// Почему возвращаем указатель на структуру?
-	// чтобы не копировать всю структуру при возврате (актуально для больших структур);
-	// чтобы можно было вернуть nil при ошибке ((*Config, error) — очень частый паттерн);
-	// чтобы дальше работать с одним и тем же объектом (изменения видны по этому указателю);
-	return &cfg
+	return MustLoadByPath(path)
 }
 
 // fetchConfigPath fetches the config path from the command line arguments.
@@ -60,4 +46,23 @@ func fetchConfigPath() string {
 	}
 
 	return res
+}
+
+func MustLoadByPath(configPath string) *Config {
+
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		panic("config file does not exist")
+	}
+
+	var cfg Config
+
+	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
+		panic("failed to read config: " + err.Error())
+	}
+
+	// Почему возвращаем указатель на структуру?
+	// чтобы не копировать всю структуру при возврате (актуально для больших структур);
+	// чтобы можно было вернуть nil при ошибке ((*Config, error) — очень частый паттерн);
+	// чтобы дальше работать с одним и тем же объектом (изменения видны по этому указателю);
+	return &cfg
 }
