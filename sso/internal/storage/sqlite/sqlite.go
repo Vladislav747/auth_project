@@ -28,6 +28,10 @@ func New(path string) (*Storage, error) {
 	return &Storage{db: db}, nil
 }
 
+func (s *Storage) Stop() error {
+	return s.db.Close()
+}
+
 func (s *Storage) SaveUser(ctx context.Context, email string, passHash []byte) (int64, error) {
 	const op = "storage.sqlite.SaveUser"
 
