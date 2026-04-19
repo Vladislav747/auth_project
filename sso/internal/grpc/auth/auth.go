@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	authService "sso/internal/services/auth"
 	"sso/internal/storage"
 )
 
@@ -39,6 +40,9 @@ func (s *serverAPI) Register(ctx context.Context, in *ssov1.RegisterRequest) (*s
 
 	userId, err := s.auth.RegisterNewUser(ctx, in.GetEmail(), in.GetPassword())
 	if err != nil {
+		if errors.Is(err, authService.ErrUserExists) {
+			return nil, status.Error(codes.AlreadyExists, "user already exists")
+		}
 		return nil, status.Error(codes.Internal, "internal error")
 	}
 

@@ -1,14 +1,11 @@
 package tests
 
 import (
-	"fmt"
 	ssov1 "github.com/Vladislav747/protos/gen/go/sso"
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"sso/tests/suite"
 	"testing"
 	"time"
@@ -88,8 +85,8 @@ func TestRegisterLogin_DuplicatedRegistration(t *testing.T) {
 		Password: pass,
 	})
 	require.Error(t, err)
-	fmt.Print(err, "err")
-	assert.Equal(t, status.Error(codes.AlreadyExists, "user already exists"), err)
+	assert.Empty(t, respReq.GetUserId())
+	assert.ErrorContains(t, err, "user already exists")
 }
 
 func randomFakePassword() string {
